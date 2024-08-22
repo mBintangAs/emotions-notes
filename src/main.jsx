@@ -11,6 +11,10 @@ import {
 } from "react-router-dom";
 import SignIn from './partials/SignIn.jsx'
 import SignUp from './partials/SignUp.jsx'
+import Dashboard from './partials/Dashboard.jsx'
+import  Axios   from "axios";
+
+Axios.defaults.baseURL="https://nxb2xkdg-8000.asse.devtunnels.ms";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +28,10 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <SignUp/>,
+  },
+  {
+    path: "/dashboard",
+    element: <Dashboard/>,
   },
 
 ]);
