@@ -53,7 +53,7 @@ export default function SignUp() {
     });
 
     return (
-        <Box h={'100vh'} backgroundRepeat={'no-repeat'} backgroundSize={{ md: 'cover', lg: '' }} backgroundImage={{ md: '/src/assets/background.png', lg: 'none' }} w={{ md: 'full' }} backgroundColor={'mint'}>
+        <Box h={'100vh'} backgroundRepeat={'no-repeat'} backgroundSize={{ base: 'cover', lg: '' }} backgroundImage={{ base: '/src/assets/background.png', lg: 'none' }} w={{ md: 'full' }} backgroundColor={'mint'}>
             <Drawer placement={'bottom'} isOpen={isOpen}>
                 <Box h={'600px'} px={7} py={10} w={'full'} bottom={0} left={0} bgColor={'offWhite'} pos={'absolute'} rounded={'30px'}>
                     <Center >

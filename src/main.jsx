@@ -1,7 +1,5 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import App from './App.jsx'
-import './index.css'
 import { ChakraProvider } from '@chakra-ui/react'
 import { extendTheme } from '@chakra-ui/react';
 import "@fontsource/quicksand"; // Import seluruh font
@@ -13,8 +11,9 @@ import SignIn from './partials/SignIn.jsx'
 import SignUp from './partials/SignUp.jsx'
 import Dashboard from './partials/Dashboard.jsx'
 import  Axios   from "axios";
+import AddNotes from './partials/AddNotes.jsx';
 
-Axios.defaults.baseURL="https://nxb2xkdg-8000.asse.devtunnels.ms";
+Axios.defaults.baseURL="http://localhost:8000";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <Dashboard/>,
+  },
+  {
+    path: "/add",
+    element: <AddNotes/>,
   },
 
 ]);
