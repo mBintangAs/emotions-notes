@@ -14,6 +14,7 @@ import  Axios   from "axios";
 import AddNotes from './partials/AddNotes.jsx';
 
 Axios.defaults.baseURL="http://localhost:8000";
+// Axios.defaults.baseURL="http://10.214.109.169:8000";
 
 const router = createBrowserRouter([
   {

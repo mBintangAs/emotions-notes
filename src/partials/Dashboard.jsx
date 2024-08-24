@@ -2,7 +2,7 @@ import { Box, Text, HStack, Button } from '@chakra-ui/react'
 import { IoAddCircleOutline } from "react-icons/io5";
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
-
+import moment from 'moment';
 // Register components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -48,7 +48,7 @@ export default function Dashboard() {
 
     return (<>
         <Box fontWeight={'bold'} bg={'offWhite'} py={'45px'} px={'30px'}>
-            <Text color={'purplePastel'}>Wed, 21 Aug 2024</Text>
+            <Text color={'purplePastel'}>{moment().format('ddd, DD MMM YYYY')}</Text>
             <Text fontSize={'32px'} color={'darkBlue'}>Welcome back!</Text>
             <Box opacity={0.7} bg={'pinkPastel'} rounded={'20px'} py={"20px"} my={'10px'} px={'30px'}>
                 <Text color={'darkBlue'}>Latest Emo Statistic</Text>
