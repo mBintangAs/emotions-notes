@@ -27,29 +27,27 @@ export default function Dashboard() {
             }
             const fetch = async () => {
                 const { data } = await axios.get('journals/latest', { headers: { Authorization: `Bearer ${jwt}` } });
-                let tempNotes = Array.isArray(data) ? data : [data];  // Menyesuaikan jika data bukan array
-                setNotes(tempNotes);
-                console.log(notes);
-                console.log(tempNotes[0]);
-                if (tempNotes.length > 0 && tempNotes[0].journals.length>1) {
+                setNotes(data);
+                console.log(data);
+                if (data.length > 0 && data[0].journal) {
                     setDataStats(
                         {
                             labels: [
-                                tempNotes[0]?.emotion_analysis[0].emotion_label,
-                                tempNotes[0]?.emotion_analysis[1].emotion_label,
-                                tempNotes[0]?.emotion_analysis[2].emotion_label,
-                                tempNotes[0]?.emotion_analysis[3].emotion_label,
-                                tempNotes[0]?.emotion_analysis[4].emotion_label,
+                                data[0]?.emotion_analysis[0].emotion_label,
+                                data[0]?.emotion_analysis[1].emotion_label,
+                                data[0]?.emotion_analysis[2].emotion_label,
+                                data[0]?.emotion_analysis[3].emotion_label,
+                                data[0]?.emotion_analysis[4].emotion_label,
                             ],
                             datasets: [
                                 {
                                     label: 'Emotions',
                                     data: [
-                                        tempNotes[0]?.emotion_analysis[0].probability * 100,
-                                        tempNotes[0]?.emotion_analysis[1].probability * 100,
-                                        tempNotes[0]?.emotion_analysis[2].probability * 100,
-                                        tempNotes[0]?.emotion_analysis[3].probability * 100,
-                                        tempNotes[0]?.emotion_analysis[4].probability * 100,
+                                        data[0]?.emotion_analysis[0].probability * 100,
+                                        data[0]?.emotion_analysis[1].probability * 100,
+                                        data[0]?.emotion_analysis[2].probability * 100,
+                                        data[0]?.emotion_analysis[3].probability * 100,
+                                        data[0]?.emotion_analysis[4].probability * 100,
                                     ],
                                     backgroundColor: [
                                         'rgba(255, 99, 132, 0.2)',
@@ -119,7 +117,7 @@ export default function Dashboard() {
                 <Center color={'darkBlue'} mb={"45px"} h={'130px'}>
                     <Spinner />
                 </Center>
-            ) : notes[0].journals.length < 1 ? (
+            ) : notes.length<1 ? (
                 <Center color={'darkBlue'} mb={"45px"} h={'130px'}>
                     Empty
                 </Center>
@@ -127,9 +125,9 @@ export default function Dashboard() {
                 <HStack overflowX={'scroll'} overflowY={'none'} h={'130px'} mb={"90px"}>
                     {notes.map((value, index) => (
                         <Box key={index} opacity={0.7} rounded={'10px'} p={'10px'} h={'full'} minW={'120px'} maxW={'120px'} bg={colors[index % colors.length]}>
-                            <Text fontSize={'18px'} fontWeight={900}>{value.journals.title}</Text>
-                            <Text fontSize={'14px'}>{moment(value.journals.created_at).format("h:mm A")}</Text>
-                            <Text noOfLines={3} fontSize={'14px'}>{value.journals.content}</Text>
+                            <Text fontSize={'18px'} fontWeight={900}>{value.journal.title}</Text>
+                            <Text fontSize={'14px'}>{moment(value.journal.created_at).format("h:mm A")}</Text>
+                            <Text noOfLines={3} fontSize={'14px'}>{value.journal.content}</Text>
                         </Box>
                     ))}
                 </HStack>
