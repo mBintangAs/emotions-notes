@@ -124,7 +124,7 @@ export default function Dashboard() {
             ) : (
                 <HStack overflowX={'scroll'} overflowY={'none'} h={'130px'} mb={"90px"}>
                     {notes.map((value, index) => (
-                        <Box key={index} opacity={0.7} rounded={'10px'} p={'10px'} h={'full'} minW={'120px'} maxW={'120px'} bg={colors[index % colors.length]}>
+                        <Box as={Link} to={`/journal/${value.journal.id}`} key={index} opacity={0.7} rounded={'10px'} p={'10px'} h={'full'} minW={'120px'} maxW={'120px'} bg={colors[index % colors.length]}>
                             <Text fontSize={'18px'} fontWeight={900}>{value.journal.title}</Text>
                             <Text fontSize={'14px'}>{moment(value.journal.created_at).format("h:mm A")}</Text>
                             <Text noOfLines={3} fontSize={'14px'}>{value.journal.content}</Text>

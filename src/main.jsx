@@ -2,7 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { ChakraProvider } from '@chakra-ui/react'
 import { extendTheme } from '@chakra-ui/react';
-import "@fontsource/quicksand"; // Import seluruh font
+import "@fontsource/quicksand/700.css"; // Import seluruh font
 import {
   createBrowserRouter,
   RouterProvider,
@@ -12,6 +12,9 @@ import SignUp from './partials/SignUp.jsx'
 import Dashboard from './partials/Dashboard.jsx'
 import  Axios   from "axios";
 import AddNotes from './partials/AddNotes.jsx';
+import CalendarPage from './partials/CalendarPage.jsx';
+import EditNotes from './partials/EditNotes.jsx';
+
 
 Axios.defaults.baseURL="http://localhost:8000";
 // Axios.defaults.baseURL="http://10.214.109.169:8000";
@@ -36,6 +39,14 @@ const router = createBrowserRouter([
   {
     path: "/add",
     element: <AddNotes/>,
+  },
+  {
+    path: "/calendar",
+    element: <CalendarPage/>,
+  },
+  {
+    path: "/journal/:id",
+    element: <EditNotes/>,
   },
 
 ]);

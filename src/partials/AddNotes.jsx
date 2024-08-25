@@ -6,9 +6,13 @@ import moment from 'moment'
 import { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
 export default function AddNotes() {
     const [isDisabled, setIsDisabled] = useState(false);
     const navigate = useNavigate();
+    const jwt = localStorage.getItem('jwt');
+    useEffect(() => !jwt ? navigate('/') : '', [])
+
     const formik = useFormik({
         initialValues: {
             created_at: moment().format('YYYY-MM-DDTHH:mm:ss'),
@@ -28,7 +32,7 @@ export default function AddNotes() {
                     return false;
                 }
                 const { title, content, created_at } = values;
-                const res = await axios.post('/journals', { title, content, created_at }, { headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` } });
+                const res = await axios.post('/journals', { title, content, created_at }, { headers: { Authorization: `Bearer ${jwt}` } });
                 alert(res.data.message);
                 navigate('/dashboard');
             } catch (error) {
