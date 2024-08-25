@@ -14,7 +14,6 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 import { useParams } from 'react-router-dom'
 export default function EditNotes() {
     const [isDisabled, setIsDisabled] = useState(false);
-    const [isDeleteDisabled, setIsDeleteDisabled] = useState(false);
     const [dataStats, setDataStats] = useState()
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
@@ -122,7 +121,8 @@ export default function EditNotes() {
             alert(data.message);
             navigate('/dashboard')
         } catch (error) {
-
+            console.log(error?.response);
+            alert(error?.response.data.detail)
         }
     }
     return (
@@ -162,12 +162,8 @@ export default function EditNotes() {
                         </Box>
                     </Box>
                     <Center mt={'20px'}>
-                        <Button onClick={deleteNotes} disabled={isDeleteDisabled} color={'#00000'} fontWeight={'bold'} rounded={'20px'} bg={'#F05359'} opacity={0.7}>
-                            {isDeleteDisabled ?
-                                <Spinner />
-                                :
-                                "Delete"
-                            }
+                        <Button onClick={deleteNotes}  color={'#00000'} fontWeight={'bold'} rounded={'20px'} bg={'#F05359'} opacity={0.7}>
+                            Delete
                         </Button>
                     </Center>
                 </Box>
