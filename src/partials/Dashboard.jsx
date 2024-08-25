@@ -19,57 +19,58 @@ export default function Dashboard() {
     const navigate = useNavigate()
     const [notes, setNotes] = useState([])
     const [dataStats, setDataStats] = useState()
+    const fetch = async () => {
+        const { data } = await axios.get('journals/latest', { headers: { Authorization: `Bearer ${jwt}` } });
+        setNotes(data);
+        console.log(data);
+        if (data.length > 0 && data[0].journal) {
+            setDataStats(
+                {
+                    labels: [
+                        data[0]?.emotion_analysis[0].emotion_label,
+                        data[0]?.emotion_analysis[1].emotion_label,
+                        data[0]?.emotion_analysis[2].emotion_label,
+                        data[0]?.emotion_analysis[3].emotion_label,
+                        data[0]?.emotion_analysis[4].emotion_label,
+                    ],
+                    datasets: [
+                        {
+                            label: 'Emotions',
+                            data: [
+                                data[0]?.emotion_analysis[0].probability * 100,
+                                data[0]?.emotion_analysis[1].probability * 100,
+                                data[0]?.emotion_analysis[2].probability * 100,
+                                data[0]?.emotion_analysis[3].probability * 100,
+                                data[0]?.emotion_analysis[4].probability * 100,
+                            ],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                            ],
+                            borderWidth: 1,
+                        },
+                    ],
+                })
+        }
+        setIsLoadingNotes(false)
+    }
+    const jwt = localStorage.getItem('jwt');
     useEffect(() => {
         try {
-            const jwt = localStorage.getItem('jwt');
             if (!jwt) {
                 navigate('/')
             }
-            const fetch = async () => {
-                const { data } = await axios.get('journals/latest', { headers: { Authorization: `Bearer ${jwt}` } });
-                setNotes(data);
-                console.log(data);
-                if (data.length > 0 && data[0].journal) {
-                    setDataStats(
-                        {
-                            labels: [
-                                data[0]?.emotion_analysis[0].emotion_label,
-                                data[0]?.emotion_analysis[1].emotion_label,
-                                data[0]?.emotion_analysis[2].emotion_label,
-                                data[0]?.emotion_analysis[3].emotion_label,
-                                data[0]?.emotion_analysis[4].emotion_label,
-                            ],
-                            datasets: [
-                                {
-                                    label: 'Emotions',
-                                    data: [
-                                        data[0]?.emotion_analysis[0].probability * 100,
-                                        data[0]?.emotion_analysis[1].probability * 100,
-                                        data[0]?.emotion_analysis[2].probability * 100,
-                                        data[0]?.emotion_analysis[3].probability * 100,
-                                        data[0]?.emotion_analysis[4].probability * 100,
-                                    ],
-                                    backgroundColor: [
-                                        'rgba(255, 99, 132, 0.2)',
-                                        'rgba(54, 162, 235, 0.2)',
-                                        'rgba(255, 206, 86, 0.2)',
-                                        'rgba(75, 192, 192, 0.2)',
-                                        'rgba(153, 102, 255, 0.2)',
-                                    ],
-                                    borderColor: [
-                                        'rgba(255, 99, 132, 1)',
-                                        'rgba(54, 162, 235, 1)',
-                                        'rgba(255, 206, 86, 1)',
-                                        'rgba(75, 192, 192, 1)',
-                                        'rgba(153, 102, 255, 1)',
-                                    ],
-                                    borderWidth: 1,
-                                },
-                            ],
-                        })
-                }
-                setIsLoadingNotes(false)
-            }
+           
             fetch()
         } catch (error) {
             // console.log(error);

@@ -19,6 +19,52 @@ export default function EditNotes() {
     const navigate = useNavigate();
     const { id } = useParams();
     const jwt = localStorage.getItem('jwt');
+    const sync = async () => {
+        const { data } = await axios.get('/journals/' + id, { headers: { Authorization: `Bearer ${jwt}` } })
+        formik.setValues({
+            title: data.journal.title,
+            content: data.journal.content,
+            created_at: data.journal.created_at,
+        })
+        setDataStats(
+            {
+                labels: [
+                    data?.emotion_analysis[0].emotion_label,
+                    data?.emotion_analysis[1].emotion_label,
+                    data?.emotion_analysis[2].emotion_label,
+                    data?.emotion_analysis[3].emotion_label,
+                    data?.emotion_analysis[4].emotion_label,
+                ],
+                datasets: [
+                    {
+                        label: 'Emotions',
+                        data: [
+                            data?.emotion_analysis[0].probability * 100,
+                            data?.emotion_analysis[1].probability * 100,
+                            data?.emotion_analysis[2].probability * 100,
+                            data?.emotion_analysis[3].probability * 100,
+                            data?.emotion_analysis[4].probability * 100,
+                        ],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                        ],
+                        borderWidth: 1,
+                    },
+                ],
+            })
+        setIsLoading(false)
+    }
     const formik = useFormik({
         initialValues: {
             created_at: '',
@@ -41,7 +87,7 @@ export default function EditNotes() {
                 const res = await axios.put('/journals/' + id, { title, content }, { headers: { Authorization: `Bearer ${jwt}` } });
                 alert(res.data.message);
                 setIsDisabled(false)
-
+                await sync()
                 // navigate('/dashboard');
             } catch (error) {
                 setIsDisabled(false)
@@ -50,54 +96,10 @@ export default function EditNotes() {
             }
         }
     });
+
     useEffect(() => {
         !jwt ? navigate('/') : '';
-        const sync = async () => {
-            const { data } = await axios.get('/journals/' + id, { headers: { Authorization: `Bearer ${jwt}` } })
-            formik.setValues({
-                title: data.journal.title,
-                content: data.journal.content,
-                created_at: data.journal.created_at,
-            })
-            setDataStats(
-                {
-                    labels: [
-                        data?.emotion_analysis[0].emotion_label,
-                        data?.emotion_analysis[1].emotion_label,
-                        data?.emotion_analysis[2].emotion_label,
-                        data?.emotion_analysis[3].emotion_label,
-                        data?.emotion_analysis[4].emotion_label,
-                    ],
-                    datasets: [
-                        {
-                            label: 'Emotions',
-                            data: [
-                                data?.emotion_analysis[0].probability * 100,
-                                data?.emotion_analysis[1].probability * 100,
-                                data?.emotion_analysis[2].probability * 100,
-                                data?.emotion_analysis[3].probability * 100,
-                                data?.emotion_analysis[4].probability * 100,
-                            ],
-                            backgroundColor: [
-                                'rgba(255, 99, 132, 0.2)',
-                                'rgba(54, 162, 235, 0.2)',
-                                'rgba(255, 206, 86, 0.2)',
-                                'rgba(75, 192, 192, 0.2)',
-                                'rgba(153, 102, 255, 0.2)',
-                            ],
-                            borderColor: [
-                                'rgba(255, 99, 132, 1)',
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(255, 206, 86, 1)',
-                                'rgba(75, 192, 192, 1)',
-                                'rgba(153, 102, 255, 1)',
-                            ],
-                            borderWidth: 1,
-                        },
-                    ],
-                })
-            setIsLoading(false)
-        }
+
         sync()
     }, [])
     const options = {
@@ -162,7 +164,7 @@ export default function EditNotes() {
                         </Box>
                     </Box>
                     <Center mt={'20px'}>
-                        <Button onClick={deleteNotes}  color={'#00000'} fontWeight={'bold'} rounded={'20px'} bg={'#F05359'} opacity={0.7}>
+                        <Button onClick={deleteNotes} color={'#00000'} fontWeight={'bold'} rounded={'20px'} bg={'#F05359'} opacity={0.7}>
                             Delete
                         </Button>
                     </Center>

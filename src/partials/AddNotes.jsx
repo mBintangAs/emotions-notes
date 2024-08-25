@@ -7,15 +7,18 @@ import { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
 export default function AddNotes() {
     const [isDisabled, setIsDisabled] = useState(false);
     const navigate = useNavigate();
     const jwt = localStorage.getItem('jwt');
-    useEffect(() => !jwt ? navigate('/') : '', [])
+    const [searchParams] = useSearchParams();
+    const date = searchParams.get('date');
+    useEffect(() => { !jwt ? navigate('/') : '' }, [])
 
     const formik = useFormik({
         initialValues: {
-            created_at: moment().format('YYYY-MM-DDTHH:mm:ss'),
+            created_at: date ? date : moment().format('YYYY-MM-DDTHH:mm:ss'),
             title: '',
             content: '',
         }, onSubmit: async (values) => {
@@ -55,7 +58,7 @@ export default function AddNotes() {
 
                     <Input name='title' value={formik.values.title} onChange={formik.handleChange} mt={'40px'} bg={'transparent'} placeholder='Title' fontWeight={'bold'} color={'darkBlue'} border={'none'} />
 
-                    <Text fontWeight={'bold'} color={'purplePastel'} pl={'16px'}>{moment().format('ddd, DD MMM YYYY')}</Text>
+                    <Text fontWeight={'bold'} color={'purplePastel'} pl={'16px'}>{date ? moment(date).format('ddd, DD MMM YYYY') : moment().format('ddd, DD MMM YYYY')}</Text>
                     <Divider my={'20px'} h={'1px'} bg={'black'}></Divider>
                     <Box opacity={0.7} px={'15px'} py={'20px'} h={'590px'} rounded={'20px'} bg={'#D9D9D9'} w={'full'}>
                         <Text mb={'20px'} color={'darkBlue'} fontWeight={900} pl={'5px'}>Emotion Analyzer</Text>
