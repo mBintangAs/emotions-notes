@@ -2,7 +2,7 @@ import {
     Box, Text, Center, FormControl,
     FormLabel,
     Button, Spinner, Drawer,
-    Input, useDisclosure, FormErrorMessage
+    Input, useDisclosure, FormErrorMessage, Image
 } from '@chakra-ui/react'
 import { useEffect } from 'react'
 import { Link } from "react-router-dom";
@@ -51,6 +51,12 @@ export default function SignIn() {
     return (
         <Box h={'100vh'} backgroundRepeat={'no-repeat'} backgroundSize={'cover'} backgroundImage={{ base: '/src/assets/background.png', lg: 'none' }} w={{ md: 'full' }} backgroundColor={'mint'}>
             <Drawer placement={'bottom'} isOpen={isOpen}>
+                <Image src={'/src/assets/logo.png'} alt='' position="absolute"
+                    top="20%"
+                    left="50%"
+                    transform="translate(-50%, -50%)"
+                    width="200px"
+                    />
                 <Box h={'600px'} px={7} py={10} w={'full'} bottom={0} left={0} bgColor={'offWhite'} pos={'absolute'} rounded={'30px'}>
                     <Center >
                         <Text variant='h1' fontWeight={'bold'} fontSize={'20px'}  >Welcome Back</Text>

@@ -14,12 +14,14 @@ export default function CalendarPage() {
     const [date, setDate] = useState(moment().format('ddd, DD MMM YYYY'))
     const [isLoading, setIsLoading] = useState(true)
     const [notes, setNotes] = useState();
-    const navigate = useNavigate();
+    const colors = ['mint', 'pinkPastel', 'purplePastel'];
+        const navigate = useNavigate();
     const sync = async (date) => {
         try {
             const { data } = await axios.get('/journals/by-date?date=' + date, { headers: { Authorization: `Bearer ${jwt}` } })
             const { data: listDate } = await axios.get('/journals/dates', { headers: { Authorization: `Bearer ${jwt}` } })
             setNotes(data)
+            console.log(listDate);
             setValue(listDate)
             setIsLoading(false)
         } catch (error) {
@@ -60,7 +62,7 @@ export default function CalendarPage() {
                                         {moment(value.journal.created_at).format('h:mm A')}
                                     </Text>
                                     <Link to={'/journal/' + value.journal.id}>
-                                        <Box w={'250px'} opacity={0.7} mb={'10px'} rounded={'10px'} p={'10px'} h={'120px'} maxH={'120px'} bg={'mint'}>
+                                        <Box w={'250px'} opacity={0.7} mb={'10px'} rounded={'10px'} p={'10px'} h={'120px'} maxH={'120px'} bg={colors[index % colors.length]}>
                                             <Text fontSize={'18px'} fontWeight={900}>{value.journal.title}</Text>
                                             <Text noOfLines={2} fontWeight={900} fontSize={'14px'}>{value.journal.content}</Text>
                                         </Box>
