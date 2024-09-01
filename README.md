@@ -2,6 +2,11 @@
 
 **Feelinks** is an emotion analysis application that helps users understand their emotions through text analysis. This repository contains the frontend code for the application. For the backend code and API, please refer to the [Feelinks Backend repository](https://github.com/gamassss/feelinks-api).
 
+# Tim Coba Coba Bang
+    1. Dea Nabila Husna
+    2. Muhammad Bintang As Sukendra Putra
+    3. Gamas Namara Akbar
+
 ## Installation
 
 Follow these steps to run the application locally:
